@@ -1,3 +1,5 @@
+import { Project } from "./project";
+
 export class Storage {
 	static saveProjects(projects) {
 		localStorage.setItem('projects', JSON.stringify(projects));
