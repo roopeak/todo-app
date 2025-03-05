@@ -20,9 +20,7 @@ export class UI {
 					<div id='projectList'></div>
 				</div>
 			</aside>
-			<div id='todoList'>
-				<button id='addTodoBtn'>Add todo</button>
-			</div>
+			<div id='todoList'></div>
 		`;
 	}
 
@@ -64,31 +62,29 @@ export class UI {
 				todoContainer.appendChild(todoItem);
 			});
 		} else {
-			projects.project.todos.forEach(todo => {
-				const todoItem = document.createElement('div', 'todo-item');
-				todoItem.innerHTML = `<strong>${todo.title}</strong> - ${dueDate}`;
-				todoContainer.appendChild(todoItem);
-			})
+			this.loadAllTodos();
 		}
 	}
 
 	static addTodo(title, description, dueDate, priority) {
 		const todo = new Todo(title, description, dueDate, priority);
-		const todos = Storage.getStandaloneTodos();
+		const todos = Storage.getAllTodos();
 		todos.push(todo);
-		Storage.saveStandaloneTodos(todos);
-		UI.loadTodos();
+		Storage.saveAllTodos(todos);
+		UI.loadAllTodos();
 	}
 
-	static loadTodos() {
+	static loadAllTodos() {
 		const todoContainer = document.getElementById('todoList');
 		todoContainer.innerHTML = '';
 
-		const todos = Storage.getStandaloneTodos();
+		const todos = Storage.getAllTodos();
 		todos.forEach(todo => {
 			const todoElement = document.createElement('div', 'todo-item');
 			todoElement.innerHTML = `<strong>${todo.title}</strong> - ${todo.dueDate}`;
 			todoContainer.appendChild(todoElement);
 		})
+
+		todoContainer.innerHTML += `<button id='addTodoBtn'>Add todo</button>`
 	}
 }

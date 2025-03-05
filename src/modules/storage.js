@@ -10,11 +10,11 @@ export class Storage {
 		return projects.map(proj => Object.assign(new Project(proj.name), proj));
 	}
 
-	static saveStandaloneTodos(todos) {
-		localStorage.setItem('standaloneTodos', JSON.stringify(todos));
+	static saveAllTodos(todos) {
+		localStorage.setItem('allTodos', JSON.stringify(todos));
 	}
 
-	static getStandaloneTodos() {
-		return JSON.parse(localStorage.getItem('standaloneTodos')) || [];
+	static getAllTodos() {
+		return JSON.parse(localStorage.getItem('allTodos')) || [];
 	}
 }
