@@ -66,8 +66,8 @@ export class UI {
 		}
 	}
 
-	static addTodo(title, description, dueDate, priority) {
-		const todo = new Todo(title, description, dueDate, priority);
+	static addTodo(title, dueDate, priority) {
+		const todo = new Todo(title, dueDate, priority);
 		const todos = Storage.getAllTodos();
 		todos.push(todo);
 		Storage.saveAllTodos(todos);
