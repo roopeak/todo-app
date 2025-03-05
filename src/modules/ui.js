@@ -19,8 +19,8 @@ export class UI {
 					<button id='addProjectBtn'>Add Project</button>
 					<div id='projectList'></div>
 				</div>
-				<div id='todoList'></div>
 			</aside>
+			<div id='todoList'></div>
 		`;
 	}
 

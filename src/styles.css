@@ -29,3 +29,11 @@ aside {
 #thisWeekBtn {
 	width: 100px;
 }
+
+#todoList {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	position: fixed;
+	margin-left: 300px;
+}
