@@ -6,9 +6,21 @@ export class UI {
 	static setupUI() {
 		const container = document.querySelector('.container');
 		container.innerHTML = `
-			<button id="addProjectBtn">Add Project</button>
-			<div id="projectList"></div>
-			<div id="todoList"></div>
+			<header>
+				<h1>Todo App</h1>
+			</header>
+			<aside class='sidebar'>
+				<div id='viewBtns'>
+					<button id='allTodosBtn'>All todos</button>
+					<button id='todayBtn'>Today</button>
+					<button id='thisWeekBtn'>This week</button>
+				</div>
+				<div id='projectsContainer'>
+					<button id='addProjectBtn'>Add Project</button>
+					<div id='projectList'></div>
+				</div>
+			</aside>
+			<div id='todoList'></div>
 		`;
 	}
 
