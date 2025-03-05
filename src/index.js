@@ -9,14 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('addProjectBtn').addEventListener('click', () => {
 		const projectName = prompt('Enter project name:');
 		if (projectName) UI.addProject(projectName);
-	})
-
-	document.getElementById('addTodoBtn').addEventListener('click', () => {
-		const title = prompt('Enter task name:');
-		UI.addTodo(title);
-	})
+	});
 
 	document.getElementById('allTodosBtn').addEventListener('click', () => {
 		UI.loadTodos();
-	})
+	});	
 })

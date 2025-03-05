@@ -17,4 +17,10 @@ export class Storage {
 	static getAllTodos() {
 		return JSON.parse(localStorage.getItem('allTodos')) || [];
 	}
+
+	static removeTodo(todoId) {
+		let todos = Storage.getAllTodos();
+		todos = todos.filter(todo => todo.id !== todoId);
+		Storage.saveAllTodos(todos);
+	}
 }
