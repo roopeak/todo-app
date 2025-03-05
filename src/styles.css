@@ -3,6 +3,12 @@ body {
 	padding: 0;
 }
 
+header {
+	display: flex;
+
+	background-color: aqua;
+}
+
 aside {
 	display: flex;
 	flex-direction: column;
