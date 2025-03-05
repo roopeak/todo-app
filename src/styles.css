@@ -37,3 +37,12 @@ aside {
 	position: fixed;
 	margin-left: 300px;
 }
+
+.todo-item {
+	display: flex;
+	justify-content: space-between;
+	padding: 20px;
+	width: 500px;
+
+	border: 1px solid red;
+}

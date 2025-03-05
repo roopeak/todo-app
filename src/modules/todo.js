@@ -1,8 +1,7 @@
 export class Todo {
-	constructor(title, dueDate, priority) {
+	constructor(title, dueDate) {
 		this.title = title;
 		this.dueDate = dueDate;
-		this.priority = priority;
 		this.completed = false;
 		this.id = Date.now().toString();
 	}

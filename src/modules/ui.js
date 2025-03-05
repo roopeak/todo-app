@@ -66,8 +66,8 @@ export class UI {
 		}
 	}
 
-	static addTodo(title, dueDate, priority) {
-		const todo = new Todo(title, dueDate, priority);
+	static addTodo(title) {
+		const todo = new Todo(title, 'not set', 'normal');
 		const todos = Storage.getAllTodos();
 		todos.push(todo);
 		Storage.saveAllTodos(todos);
@@ -80,8 +80,11 @@ export class UI {
 
 		const todos = Storage.getAllTodos();
 		todos.forEach(todo => {
-			const todoElement = document.createElement('div', 'todo-item');
-			todoElement.innerHTML = `<strong>${todo.title}</strong> - ${todo.dueDate}`;
+			const todoElement = document.createElement('div');
+			todoElement.classList.add('todo-item');
+			todoElement.innerHTML = `
+				<strong>${todo.title}</strong><input type='date' id='dueDate'>
+			`;
 			todoContainer.appendChild(todoElement);
 		})
 
