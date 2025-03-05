@@ -5,6 +5,7 @@ export class Todo {
 		this.dueDate = dueDate;
 		this.priority = priority;
 		this.completed = false;
+		this.id = Date.now().toString();
 	}
 
 	toggleComplete() {
