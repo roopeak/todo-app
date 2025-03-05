@@ -20,6 +20,8 @@ export class UI {
 		projects.forEach(project => {
 			const projectCard = document.createElement('div', 'project-item');
 			projectCard.textContent = project.name;
+			projectCard.dataset.id = project.id;
+			projectCard.addEventListener('click', () => UI.loadTodos(project.id));
 			projectContainer.appendChild(projectCard);
 		})
 
@@ -35,8 +37,18 @@ export class UI {
 		UI.loadProjects();
 	}
 
-	static loadTodos() {
+	static loadTodos(projectId) {
+		const projects = Storage.getProjects();
+		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
 		todoContainer.innerHTML = '';
+	
+		if (project) {
+			project.todos.forEach(todo => {
+				const todoItem = document.createElement('div', 'todo-item');
+				todoItem.innerHTML = `<strong>${todo.title}</strong> - ${dueDate}`;
+				todoContainer.appendChild(todoItem);
+			});
+		}
 	}
 }
