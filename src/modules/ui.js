@@ -20,7 +20,9 @@ export class UI {
 					<div id='projectList'></div>
 				</div>
 			</aside>
-			<div id='todoList'></div>
+			<div id='todoList'>
+				<button id='addTodoBtn'>Add todo</button>
+			</div>
 		`;
 	}
 
@@ -61,6 +63,32 @@ export class UI {
 				todoItem.innerHTML = `<strong>${todo.title}</strong> - ${dueDate}`;
 				todoContainer.appendChild(todoItem);
 			});
+		} else {
+			projects.project.todos.forEach(todo => {
+				const todoItem = document.createElement('div', 'todo-item');
+				todoItem.innerHTML = `<strong>${todo.title}</strong> - ${dueDate}`;
+				todoContainer.appendChild(todoItem);
+			})
 		}
+	}
+
+	static addTodo(title, description, dueDate, priority) {
+		const todo = new Todo(title, description, dueDate, priority);
+		const todos = Storage.getStandaloneTodos();
+		todos.push(todo);
+		Storage.saveStandaloneTodos(todos);
+		UI.loadTodos();
+	}
+
+	static loadTodos() {
+		const todoContainer = document.getElementById('todoList');
+		todoContainer.innerHTML = '';
+
+		const todos = Storage.getStandaloneTodos();
+		todos.forEach(todo => {
+			const todoElement = document.createElement('div', 'todo-item');
+			todoElement.innerHTML = `<strong>${todo.title}</strong> - ${todo.dueDate}`;
+			todoContainer.appendChild(todoElement);
+		})
 	}
 }
