@@ -13,5 +13,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	document.getElementById('allTodosBtn').addEventListener('click', () => {
 		UI.loadTodos();
-	});	
+	});
 })
