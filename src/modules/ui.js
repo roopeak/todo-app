@@ -53,20 +53,42 @@ export class UI {
 		const projects = Storage.getProjects();
 		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
-		todoContainer.innerHTML = '';
+		todoContainer.innerHTML = `<button id='addTodoBtn'>Add todo</button>`;
 	
 		if (project) {
+			const projectHeader = document.createElement('h1');
+			projectHeader.textContent = project.name;
+
+			todoContainer.appendChild(projectHeader);
 			project.todos.forEach(todo => {
 				const todoItem = document.createElement('div', 'todo-item');
-				todoItem.innerHTML = `<strong>${todo.title}</strong> - ${dueDate}`;
+				todoItem.innerHTML = `<strong>${todo.title}</strong> - ${todo.dueDate}`;
 				todoContainer.appendChild(todoItem);
+			});
+
+			document.getElementById('addTodoBtn').addEventListener('click', () => {
+				const title = prompt('Enter task name:');
+				UI.addTodo(title, project.name);
 			});
 		} else {
 			this.loadAllTodos();
 		}
 	}
 
-	static addTodo(title) {
+	static addTodo(title, projectName) {
+		if (projectName) {
+			const projects = Storage.getProjects();
+			let project = projects.find(project => project.name === projectName);
+
+			if (project) {
+				const todo = new Todo(title, 'not set', 'normal');
+				project.addTodo(todo);
+				Storage.saveProjects(projects);
+				UI.loadTodos(project.id);
+				return;
+			}
+		}
+
 		const todo = new Todo(title, 'not set', 'normal');
 		const todos = Storage.getAllTodos();
 		todos.push(todo);
@@ -77,8 +99,6 @@ export class UI {
 	static loadAllTodos() {
 		const todoContainer = document.getElementById('todoList');
 		todoContainer.innerHTML = `<button id='addTodoBtn'>Add todo</button>`;
-
-
 
 		const todos = Storage.getAllTodos();
 		todos.forEach(todo => {
