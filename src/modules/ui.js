@@ -62,13 +62,24 @@ export class UI {
 			todoContainer.appendChild(projectHeader);
 			project.todos.forEach(todo => {
 				const todoItem = document.createElement('div', 'todo-item');
-				todoItem.innerHTML = `<strong>${todo.title}</strong> - ${todo.dueDate}`;
+				todoItem.innerHTML = `
+					<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+					<strong>${todo.title}</strong>
+					<input type='date' id='dueDate'>
+				`;
 				todoContainer.appendChild(todoItem);
 			});
 
 			document.getElementById('addTodoBtn').addEventListener('click', () => {
 				const title = prompt('Enter task name:');
 				UI.addTodo(title, project.name);
+			});
+
+			document.querySelectorAll(".check-todo").forEach(button => {
+				button.addEventListener("click", (event) => {
+						const todoId = event.target.dataset.todoId;
+						UI.removeTodo(todoId);
+				});
 			});
 		} else {
 			this.loadAllTodos();
