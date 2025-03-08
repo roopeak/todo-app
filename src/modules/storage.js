@@ -18,7 +18,20 @@ export class Storage {
 		return JSON.parse(localStorage.getItem('allTodos')) || [];
 	}
 
-	static removeTodo(todoId) {
+	static removeTodo(todoId, projectId) {
+		if (projectId) {
+			const projects = Storage.getProjects();
+			let project = projects.find(project => project.id === projectId);
+			
+			if (project) {
+				const todo = project.todos.find(todo => todo.id === todoId);
+				project.removeTodo(todo.id);
+				Storage.saveProjects(projects);
+				console.log(project.todos);
+				return;
+			}
+		}
+
 		let todos = Storage.getAllTodos();
 		todos = todos.filter(todo => todo.id !== todoId);
 		Storage.saveAllTodos(todos);

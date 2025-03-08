@@ -78,7 +78,7 @@ export class UI {
 			document.querySelectorAll(".check-todo").forEach(button => {
 				button.addEventListener("click", (event) => {
 						const todoId = event.target.dataset.todoId;
-						UI.removeTodo(todoId);
+						UI.removeTodo(todoId, projectId);
 				});
 			});
 		} else {
@@ -130,14 +130,22 @@ export class UI {
 
 		document.querySelectorAll(".check-todo").forEach(button => {
 			button.addEventListener("click", (event) => {
-					const todoId = event.target.dataset.todoId;
-					UI.removeTodo(todoId);
+				const todoId = event.target.dataset.todoId;
+				UI.removeTodo(todoId);
 			});
 		});
 	}
 
-	static removeTodo(todoId) {
-		Storage.removeTodo(todoId);
-		UI.loadAllTodos();
+	static removeTodo(todoId, projectId) {
+		if (projectId) {
+			const projects = Storage.getProjects();
+			let project = projects.find(project => project.id === projectId);
+			project.removeTodo(todoId);
+			Storage.removeTodo(todoId, projectId);
+			UI.loadTodos(projectId);
+		} else {
+			Storage.removeTodo(todoId);
+			UI.loadAllTodos();
+		}
 	}
 }
