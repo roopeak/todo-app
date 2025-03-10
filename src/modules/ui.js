@@ -123,6 +123,22 @@ export class UI {
 			todoContainer.appendChild(todoElement);
 		})
 
+		const projects = Storage.getProjects();
+		projects.forEach(project => {
+			if (project.todos.length !== 0) {
+				project.todos.forEach(todo => {
+					const todoElement = document.createElement('div');
+					todoElement.classList.add('todo-item');
+					todoElement.innerHTML = `
+						<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+						<strong>${todo.title}</strong>
+						<input type='date' id='dueDate'>
+					`;
+					todoContainer.appendChild(todoElement);
+				})
+			}
+		})
+
 		document.getElementById('addTodoBtn').addEventListener('click', () => {
 			const title = prompt('Enter task name:');
 			UI.addTodo(title);
