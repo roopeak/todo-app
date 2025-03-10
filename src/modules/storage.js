@@ -27,13 +27,13 @@ export class Storage {
 				const todo = project.todos.find(todo => todo.id === todoId);
 				project.removeTodo(todo.id);
 				Storage.saveProjects(projects);
-				console.log(project.todos);
-				return;
 			}
 		}
 
 		let todos = Storage.getAllTodos();
+		console.log('Todos before remove: ', todos);
 		todos = todos.filter(todo => todo.id !== todoId);
 		Storage.saveAllTodos(todos);
+		console.log('Todos after remove: ', todos);
 	}
 }

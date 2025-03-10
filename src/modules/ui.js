@@ -38,7 +38,7 @@ export class UI {
 		})
 
 		// Console log for debugging
-		console.log('Projects loaded: ', projects);
+		// console.log('Projects loaded: ', projects);
 	}
 
 	static addProject(name) {
@@ -82,14 +82,14 @@ export class UI {
 			document.querySelectorAll(".check-todo").forEach(button => {
 				button.addEventListener("click", (event) => {
 					const todoId = event.target.dataset.todoId;
-					UI.removeTodo(todoId, project.id);
+					UI.removeTodo(todoId);
 				});
 			});
 
 			return;
 		}
 
-		const todos = Storage.getAllTodos();
+		let todos = Storage.getAllTodos();
 
 		if (todos) {
 			todos.forEach(todo => {
@@ -115,31 +115,56 @@ export class UI {
 	static addTodo(title, projectName) {
 		if (projectName) {
 			const projects = Storage.getProjects();
+
 			let project = projects.find(project => project.name === projectName);
 
 			if (project) {
 				const todo = new Todo(title, 'not set', 'normal');
 				project.addTodo(todo);
+
+				const todos = Storage.getAllTodos();
+				todos.push(todo);
+				
 				Storage.saveProjects(projects);
+				Storage.saveAllTodos(todos);
 				UI.loadTodos(project.id);
 			}
+			console.log('Projects after add: ', projects);
+		} else {
+			const todo = new Todo(title, 'not set', 'normal');
+			const todos = Storage.getAllTodos();
+			todos.push(todo);
+			Storage.saveAllTodos(todos);
+			UI.loadTodos();
 		}
 
-		const todo = new Todo(title, 'not set', 'normal');
-		const todos = Storage.getAllTodos();
-		todos.push(todo);
-		Storage.saveAllTodos(todos);
 	}
 
-	static removeTodo(todoId, projectId) {
-		if (projectId) {
-			const projects = Storage.getProjects();
-			let project = projects.find(project => project.id === projectId);
-			project.removeTodo(todoId);
-			Storage.removeTodo(todoId, projectId);
-			UI.loadTodos(projectId);
-		}
+	static removeTodo(todoId) {
+    const projects = Storage.getProjects();
+    console.log('Projects before remove: ', projects);
+    let projectId = null;
 
-		Storage.removeTodo(todoId);
-	}
+    for (let project of projects) {
+			if (project.todos && project.todos.some(todo => todo.id === todoId)) {
+				projectId = project.id;
+				break;
+			}
+    }
+
+    if (projectId) {
+			let project = projects.find(project => projectId === project.id);
+			if (project) {
+				project.removeTodo(todoId);
+				Storage.saveProjects(projects);
+				console.log('Projects after project todo remove: ', projects);
+				UI.loadTodos(project.id);
+			}
+    }
+
+    Storage.removeTodo(todoId);
+    UI.loadTodos();
+    console.log('Projects after global todo remove: ', projects);
+}
+
 }
