@@ -49,7 +49,8 @@ export class UI {
 		UI.loadProjects();
 	}
 
-	static loadTodos(projectId) {
+	static loadTodos(projectId, date) {
+		console.log(date)
 		const projects = Storage.getProjects();
 		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
@@ -112,10 +113,13 @@ export class UI {
 		}
 	}
 
+	static loadToday() {
+
+	}
+
 	static addTodo(title, projectName) {
 		if (projectName) {
 			const projects = Storage.getProjects();
-
 			let project = projects.find(project => project.name === projectName);
 
 			if (project) {
@@ -137,7 +141,6 @@ export class UI {
 			Storage.saveAllTodos(todos);
 			UI.loadTodos();
 		}
-
 	}
 
 	static removeTodo(todoId) {
@@ -165,6 +168,30 @@ export class UI {
     Storage.removeTodo(todoId);
     UI.loadTodos();
     console.log('Projects after global todo remove: ', projects);
-}
+	}
 
+	static parseDate(date) {
+		const months = {
+			Jan: '01',
+			Feb: '02',
+			Mar: '03',
+			Apr: '04',
+			May: '05',
+			Jun: '06',
+			Jul: '07',
+			Aug: '08',
+			Sep: '09',
+			Oct: '10',
+			Nov: '11',
+			Dec: '12',
+		};
+	
+		date = date.toString().split(' ');
+		const day = date[2];
+		const month = months[date[1]];
+		const year = date[3];
+
+		// console.log(`${day}/${month}/${year}`);
+		return `${day}/${month}/${year}`;
+	}
 }

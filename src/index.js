@@ -14,4 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('allTodosBtn').addEventListener('click', () => {
 		UI.loadTodos();
 	});
+
+	document.getElementById('todayBtn').addEventListener('click', () => {
+		const date = UI.parseDate(new Date());
+		console.log(date)
+		UI.loadTodos(null, date);
+	});
 })
