@@ -82,7 +82,7 @@ export class UI {
 			document.querySelectorAll(".check-todo").forEach(button => {
 				button.addEventListener("click", (event) => {
 					const todoId = event.target.dataset.todoId;
-					UI.removeTodo(todoId, projectId);
+					UI.removeTodo(todoId, project.id);
 				});
 			});
 
@@ -129,7 +129,6 @@ export class UI {
 		const todos = Storage.getAllTodos();
 		todos.push(todo);
 		Storage.saveAllTodos(todos);
-		UI.loadTodos();
 	}
 
 	static removeTodo(todoId, projectId) {
@@ -139,9 +138,8 @@ export class UI {
 			project.removeTodo(todoId);
 			Storage.removeTodo(todoId, projectId);
 			UI.loadTodos(projectId);
-		} else {
-			Storage.removeTodo(todoId);
-			UI.loadTodos();
 		}
+
+		Storage.removeTodo(todoId);
 	}
 }

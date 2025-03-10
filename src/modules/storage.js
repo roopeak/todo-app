@@ -27,6 +27,8 @@ export class Storage {
 				const todo = project.todos.find(todo => todo.id === todoId);
 				project.removeTodo(todo.id);
 				Storage.saveProjects(projects);
+				console.log(project.todos);
+				return;
 			}
 		}
 
