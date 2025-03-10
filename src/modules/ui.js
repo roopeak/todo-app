@@ -55,6 +55,15 @@ export class UI {
 		const todoContainer = document.getElementById('todoList');
 		todoContainer.innerHTML = `<button id='addTodoBtn'>Add todo</button>`;
 	
+		document.getElementById('addTodoBtn').addEventListener('click', () => {
+			const title = prompt('Enter task name:');
+			if (project) {
+				UI.addTodo(title, project.name);
+			} else {
+				UI.addTodo(title);
+			}
+		});
+
 		if (project) {
 			const projectHeader = document.createElement('h1');
 			projectHeader.textContent = project.name;
@@ -70,19 +79,36 @@ export class UI {
 				todoContainer.appendChild(todoItem);
 			});
 
-			document.getElementById('addTodoBtn').addEventListener('click', () => {
-				const title = prompt('Enter task name:');
-				UI.addTodo(title, project.name);
-			});
-
 			document.querySelectorAll(".check-todo").forEach(button => {
 				button.addEventListener("click", (event) => {
-						const todoId = event.target.dataset.todoId;
-						UI.removeTodo(todoId, projectId);
+					const todoId = event.target.dataset.todoId;
+					UI.removeTodo(todoId, projectId);
 				});
 			});
-		} else {
-			this.loadAllTodos();
+
+			return;
+		}
+
+		const todos = Storage.getAllTodos();
+
+		if (todos) {
+			todos.forEach(todo => {
+				const todoElement = document.createElement('div');
+				todoElement.classList.add('todo-item');
+				todoElement.innerHTML = `
+					<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+					<strong>${todo.title}</strong>
+					<input type='date' id='dueDate'>
+				`;
+				todoContainer.appendChild(todoElement);
+			})
+	
+			document.querySelectorAll(".check-todo").forEach(button => {
+				button.addEventListener("click", (event) => {
+					const todoId = event.target.dataset.todoId;
+					UI.removeTodo(todoId);
+				});
+			});
 		}
 	}
 
@@ -96,7 +122,6 @@ export class UI {
 				project.addTodo(todo);
 				Storage.saveProjects(projects);
 				UI.loadTodos(project.id);
-				return;
 			}
 		}
 
@@ -104,52 +129,7 @@ export class UI {
 		const todos = Storage.getAllTodos();
 		todos.push(todo);
 		Storage.saveAllTodos(todos);
-		UI.loadAllTodos();
-	}
-
-	static loadAllTodos() {
-		const todoContainer = document.getElementById('todoList');
-		todoContainer.innerHTML = `<button id='addTodoBtn'>Add todo</button>`;
-
-		const todos = Storage.getAllTodos();
-		todos.forEach(todo => {
-			const todoElement = document.createElement('div');
-			todoElement.classList.add('todo-item');
-			todoElement.innerHTML = `
-				<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
-				<strong>${todo.title}</strong>
-				<input type='date' id='dueDate'>
-			`;
-			todoContainer.appendChild(todoElement);
-		})
-
-		const projects = Storage.getProjects();
-		projects.forEach(project => {
-			if (project.todos.length !== 0) {
-				project.todos.forEach(todo => {
-					const todoElement = document.createElement('div');
-					todoElement.classList.add('todo-item');
-					todoElement.innerHTML = `
-						<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
-						<strong>${todo.title}</strong>
-						<input type='date' id='dueDate'>
-					`;
-					todoContainer.appendChild(todoElement);
-				})
-			}
-		})
-
-		document.getElementById('addTodoBtn').addEventListener('click', () => {
-			const title = prompt('Enter task name:');
-			UI.addTodo(title);
-		});
-
-		document.querySelectorAll(".check-todo").forEach(button => {
-			button.addEventListener("click", (event) => {
-				const todoId = event.target.dataset.todoId;
-				UI.removeTodo(todoId);
-			});
-		});
+		UI.loadTodos();
 	}
 
 	static removeTodo(todoId, projectId) {
@@ -161,7 +141,7 @@ export class UI {
 			UI.loadTodos(projectId);
 		} else {
 			Storage.removeTodo(todoId);
-			UI.loadAllTodos();
+			UI.loadTodos();
 		}
 	}
 }
