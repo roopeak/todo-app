@@ -6,7 +6,7 @@ export class Todo {
 		this.id = Date.now().toString();
 	}
 
-	toggleComplete() {
-		this.completed = !this.completed;
+	static changeDate(newDueDate) {
+		this.dueDate = newDueDate;
 	}
 }

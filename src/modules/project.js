@@ -6,11 +6,14 @@ export class Project {
 	}
 
 	addTodo(todo) {
-		console.log(todo)
 		this.todos.push(todo);
 	}
 
 	removeTodo(todoId) {
 		this.todos = this.todos.filter(todo => todo.id !== todoId);
+	}
+
+	static changeTodoDueDate(todoId) {
+		console.log(this.todos)
 	}
 }
