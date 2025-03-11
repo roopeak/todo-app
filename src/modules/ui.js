@@ -49,8 +49,9 @@ export class UI {
 		UI.loadProjects();
 	}
 
-	static loadTodos(projectId) {
+	static loadTodos(projectId, date) {
 		const projects = Storage.getProjects();
+		console.log(projects);
 		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
 		todoContainer.innerHTML = `<button id='addTodoBtn'>Add todo</button>`;
@@ -74,15 +75,40 @@ export class UI {
 				todoItem.innerHTML = `
 					<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
 					<strong>${todo.title}</strong>
-					<input type='date' id='dueDate'>
+					<p class='due-date'>${todo.dueDate}</p>
 				`;
 				todoContainer.appendChild(todoItem);
-			});
 
-			document.querySelectorAll(".check-todo").forEach(button => {
-				button.addEventListener("click", (event) => {
-					const todoId = event.target.dataset.todoId;
-					UI.removeTodo(todoId);
+				document.querySelectorAll(".check-todo").forEach(button => {
+					button.addEventListener("click", (event) => {
+						const todoId = event.target.dataset.todoId;
+						UI.removeTodo(todoId);
+					});
+				});
+		
+				document.querySelectorAll('.due-date').forEach(dueDate => {
+					dueDate.addEventListener('click', () => {
+						const dateInput = document.createElement('input');
+						dateInput.type = 'date';
+						dateInput.valueAsDate = new Date(todo.dueDate);
+	
+						dateInput.addEventListener('change', () => {
+							let input = dateInput.value;
+							let dateEntered = new Date(input);
+							todo.dueDate = UI.parseDate(dateEntered);
+							Todo.changeDate(UI.parseDate(dateEntered));
+							let projects = Storage.getProjects();
+							Storage.saveProjects(projects);
+							let todos = Storage.getAllTodos();
+							Storage.saveAllTodos(todos);
+							UI.loadTodos(project.id);
+							console.log('Projects after change: ', projects);
+							console.log('Todos after change: ', todos);
+						})
+	
+						dueDate.replaceWith(dateInput);
+						dateInput.focus();
+					})
 				});
 			});
 
@@ -92,30 +118,92 @@ export class UI {
 		let todos = Storage.getAllTodos();
 
 		if (todos) {
-			todos.forEach(todo => {
-				const todoElement = document.createElement('div');
-				todoElement.classList.add('todo-item');
-				todoElement.innerHTML = `
-					<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
-					<strong>${todo.title}</strong>
-					<input type='date' id='dueDate'>
-				`;
-				todoContainer.appendChild(todoElement);
-			})
+			if (date) {
+				todos.forEach(todo => {
+					if (todo.dueDate === date) {
+						const todoElement = document.createElement('div');
+						todoElement.classList.add('todo-item');
+						todoElement.innerHTML = `
+							<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+							<strong>${todo.title}</strong>
+							<p class='due-date'>${todo.dueDate}</p>
+						`;
+						todoContainer.appendChild(todoElement);
+						
+						document.querySelectorAll(".check-todo").forEach(button => {
+							button.addEventListener("click", (event) => {
+								const todoId = event.target.dataset.todoId;
+								UI.removeTodo(todoId);
+							});
+						});
+
+						const dueDate = document.querySelector('.due-date');
+						const oldDate = todo.dueDate;
 	
-			document.querySelectorAll(".check-todo").forEach(button => {
-				button.addEventListener("click", (event) => {
-					const todoId = event.target.dataset.todoId;
-					UI.removeTodo(todoId);
-				});
-			});
+						document.querySelectorAll('.due-date').forEach(dueDate => {
+							dueDate.addEventListener('click', () => {
+								const dateInput = document.createElement('input');
+								dateInput.type = 'date';
+								dateInput.valueAsDate = new Date(todo.dueDate);
+		
+								dateInput.addEventListener('change', () => {
+									let input = dateInput.value;
+									let dateEntered = new Date(input);
+									todo.dueDate = UI.parseDate(dateEntered);
+									Storage.saveAllTodos(todos);
+									UI.loadTodos();
+								})
+		
+								dueDate.replaceWith(dateInput);
+								dateInput.focus();
+							})
+						});
+					}
+				})
+			} else {
+				todos.forEach(todo => {
+					const todoElement = document.createElement('div');
+					todoElement.classList.add('todo-item');
+					todoElement.innerHTML = `
+						<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+						<strong>${todo.title}</strong>
+						<p class='due-date'>${todo.dueDate}</p>
+					`;
+					todoContainer.appendChild(todoElement);
+
+					document.querySelectorAll(".check-todo").forEach(button => {
+						button.addEventListener("click", (event) => {
+							const todoId = event.target.dataset.todoId;
+							UI.removeTodo(todoId);
+						});
+					});
+	
+					document.querySelectorAll('.due-date').forEach(dueDate => {
+						dueDate.addEventListener('click', () => {
+							const dateInput = document.createElement('input');
+							dateInput.type = 'date';
+							dateInput.valueAsDate = new Date(todo.dueDate);
+	
+							dateInput.addEventListener('change', () => {
+								let input = dateInput.value;
+								let dateEntered = new Date(input);
+								todo.dueDate = UI.parseDate(dateEntered);
+								Storage.saveAllTodos(todos);
+								UI.loadTodos();
+							})
+	
+							dueDate.replaceWith(dateInput);
+							dateInput.focus();
+						})
+					});
+				})
+			}
 		}
 	}
 
 	static addTodo(title, projectName) {
 		if (projectName) {
 			const projects = Storage.getProjects();
-
 			let project = projects.find(project => project.name === projectName);
 
 			if (project) {
@@ -128,6 +216,7 @@ export class UI {
 				Storage.saveProjects(projects);
 				Storage.saveAllTodos(todos);
 				UI.loadTodos(project.id);
+				console.log(projects);
 			}
 			console.log('Projects after add: ', projects);
 		} else {
@@ -137,7 +226,6 @@ export class UI {
 			Storage.saveAllTodos(todos);
 			UI.loadTodos();
 		}
-
 	}
 
 	static removeTodo(todoId) {
@@ -165,6 +253,30 @@ export class UI {
     Storage.removeTodo(todoId);
     UI.loadTodos();
     console.log('Projects after global todo remove: ', projects);
-}
+	}
 
+	static parseDate(date) {
+		const months = {
+			Jan: '01',
+			Feb: '02',
+			Mar: '03',
+			Apr: '04',
+			May: '05',
+			Jun: '06',
+			Jul: '07',
+			Aug: '08',
+			Sep: '09',
+			Oct: '10',
+			Nov: '11',
+			Dec: '12',
+		};
+	
+		date = date.toString().split(' ');
+		const day = date[2];
+		const month = months[date[1]];
+		const year = date[3];
+
+		// console.log(`${day}/${month}/${year}`);
+		return `${day}/${month}/${year}`;
+	}
 }
