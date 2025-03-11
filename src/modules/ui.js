@@ -50,7 +50,6 @@ export class UI {
 	}
 
 	static loadTodos(projectId, date) {
-		console.log(date)
 		const projects = Storage.getProjects();
 		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
@@ -75,7 +74,7 @@ export class UI {
 				todoItem.innerHTML = `
 					<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
 					<strong>${todo.title}</strong>
-					<input type='date' id='dueDate'>
+					<p id='dueDate'>${todo.dueDate}</p>
 				`;
 				todoContainer.appendChild(todoItem);
 			});
@@ -87,34 +86,110 @@ export class UI {
 				});
 			});
 
+			const dueDate = document.getElementById('dueDate');
+	
+			dueDate.addEventListener('click', () => {
+				const dateInput = document.createElement('input');
+				dateInput.type = 'date';
+				dateInput.valueAsDate = new Date(todo.dueDate);
+
+				dateInput.addEventListener('change', () => {
+					let input = dateInput.value;
+					let dateEntered = new Date(input);
+					todo.dueDate = UI.parseDate(dateEntered);
+					Storage.saveAllTodos(todos);
+					UI.loadTodos(project.id);
+				})
+
+				dueDate.replaceWith(dateInput);
+				dateInput.focus();
+			})
+
 			return;
 		}
 
 		let todos = Storage.getAllTodos();
 
 		if (todos) {
-			todos.forEach(todo => {
-				const todoElement = document.createElement('div');
-				todoElement.classList.add('todo-item');
-				todoElement.innerHTML = `
-					<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
-					<strong>${todo.title}</strong>
-					<input type='date' id='dueDate'>
-				`;
-				todoContainer.appendChild(todoElement);
-			})
+			if (date) {
+				todos.forEach(todo => {
+					if (todo.dueDate === date) {
+						const todoElement = document.createElement('div');
+						todoElement.classList.add('todo-item');
+						todoElement.innerHTML = `
+							<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+							<strong>${todo.title}</strong>
+							<p id='dueDate'>${todo.dueDate}</p>
+						`;
+						todoContainer.appendChild(todoElement);
+						
+						document.querySelectorAll(".check-todo").forEach(button => {
+							button.addEventListener("click", (event) => {
+								const todoId = event.target.dataset.todoId;
+								UI.removeTodo(todoId);
+							});
+						});
+
+						const dueDate = document.getElementById('dueDate');
+						const oldDate = todo.dueDate;
 	
-			document.querySelectorAll(".check-todo").forEach(button => {
-				button.addEventListener("click", (event) => {
-					const todoId = event.target.dataset.todoId;
-					UI.removeTodo(todoId);
-				});
-			});
+						dueDate.addEventListener('click', () => {
+							const dateInput = document.createElement('input');
+							dateInput.type = 'date';
+							dateInput.valueAsDate = new Date(todo.dueDate);
+	
+							dateInput.addEventListener('change', () => {
+								let input = dateInput.value;
+								let dateEntered = new Date(input);
+								todo.dueDate = UI.parseDate(dateEntered);
+								Storage.saveAllTodos(todos);
+								UI.loadTodos(null, oldDate);
+							})
+	
+							dueDate.replaceWith(dateInput);
+							dateInput.focus();
+						})
+					}
+				})
+			} else {
+				todos.forEach(todo => {
+					const todoElement = document.createElement('div');
+					todoElement.classList.add('todo-item');
+					todoElement.innerHTML = `
+						<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+						<strong>${todo.title}</strong>
+						<p class='due-date'>${todo.dueDate}</p>
+					`;
+					todoContainer.appendChild(todoElement);
+
+					document.querySelectorAll(".check-todo").forEach(button => {
+						button.addEventListener("click", (event) => {
+							const todoId = event.target.dataset.todoId;
+							UI.removeTodo(todoId);
+						});
+					});
+	
+					document.querySelectorAll('.due-date').forEach(dueDate => {
+						dueDate.addEventListener('click', () => {
+							const dateInput = document.createElement('input');
+							dateInput.type = 'date';
+							dateInput.valueAsDate = new Date(todo.dueDate);
+	
+							dateInput.addEventListener('change', () => {
+								let input = dateInput.value;
+								let dateEntered = new Date(input);
+								todo.dueDate = UI.parseDate(dateEntered);
+								Storage.saveAllTodos(todos);
+								UI.loadTodos();
+							})
+	
+							dueDate.replaceWith(dateInput);
+							dateInput.focus();
+						})
+					});
+				})
+			}
 		}
-	}
-
-	static loadToday() {
-
 	}
 
 	static addTodo(title, projectName) {

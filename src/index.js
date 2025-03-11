@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	document.getElementById('todayBtn').addEventListener('click', () => {
 		const date = UI.parseDate(new Date());
-		console.log(date)
 		UI.loadTodos(null, date);
 	});
 })
