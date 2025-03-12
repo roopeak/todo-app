@@ -1,48 +1,137 @@
 body {
 	margin: 0;
 	padding: 0;
+	font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	background-color: #CBB9A8;
 }
 
 header {
 	display: flex;
+	align-items: center;
+	color: white;
+	height: 100px;
+	background-color: #352D39;
+}
 
-	background-color: aqua;
+header > h1 {
+	margin-left: 75px;
 }
 
 aside {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	gap: 20px;
 	position: fixed;
 	height: 100%;
 	width: 300px;
-	background-color: bisque;
+	padding-top: 40px;
+	background-color: #FF6978;
 }
 
 #viewBtns {
 	display: flex;
 	flex-direction: column;
+	gap: 20px;
 }
 
 #allTodosBtn,
 #todayBtn,
-#thisWeekBtn {
-	width: 100px;
+#addProjectBtn,
+#addTodoBtn {
+	width: 200px;
+	height: 40px;
+	border: none;
+	border-radius: 15px;
+	color: black;
+	font-size: large;
+	font-weight: bold;
+	background-color: #FFFCF9;
+}
+
+#allTodosBtn:hover,
+#todayBtn:hover,
+#addProjectBtn:hover,
+#addTodoBtn:hover {
+	cursor: pointer;
+	background-color: #1F271B;
+	color: white;
+}
+
+.project-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 200px;
+	height: 40px;
+	color: white;
+	text-align: center;
+	border-radius: 15px;
+}
+
+.project-item:hover {
+	cursor: pointer;
+	background-color: #1F271B;
+	color: white;
+}
+
+#projectList {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
 }
 
 #todoList {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	height: 100vh;
 	position: fixed;
-	margin-left: 300px;
+	margin-left: 350px;
+	padding-top: 40px;
+	gap: 20px;
 }
 
 .todo-item {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 20px;
-	width: 500px;
+	width: 1000px;
+	height: 30px;
+}
 
-	border: 1px solid red;
+.todo-item:hover {
+	background-color:#CBB9C9;
+	border-radius: 15px;
+}
+
+.complete-todo {
+	border: none;
+	color: black;
+	border-radius: 15px;
+	width: 100px;
+	height: 30px;
+}
+
+.complete-todo:hover {
+	background-color: #1F271B;
+	color: white;
+	cursor: pointer;
+}
+
+.due-date {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 30px;
+	width: 100px;
+}
+
+.due-date:hover {
+	cursor: pointer;
+	background-color: #1F271B;
+	color: white;
+	border-radius: 15px;
 }
