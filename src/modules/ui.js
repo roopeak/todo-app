@@ -95,12 +95,20 @@ export class UI {
 						dateInput.addEventListener('change', () => {
 							let input = dateInput.value;
 							let dateEntered = new Date(input);
+
+							// Change date in all todos
 							todo.dueDate = UI.parseDate(dateEntered);
 							Storage.saveProjects(projects);
+
+							// Change date in project todos
+							let todos = Storage.getAllTodos();
+							todos.forEach(t => {
+								if (t.id === todo.id) {
+									t.dueDate = todo.dueDate;
+								}
+							})
 							Storage.saveAllTodos(todos);
-							UI.loadTodos(project.id);
-							console.log('Projects after change: ', projects);
-							console.log('Todos after change: ', todos);
+							UI.loadTodos();
 						})
 	
 						dueDate.replaceWith(dateInput);
@@ -144,6 +152,15 @@ export class UI {
 									let input = dateInput.value;
 									let dateEntered = new Date(input);
 									todo.dueDate = UI.parseDate(dateEntered);
+									let projects = Storage.getProjects();
+									projects.forEach(project => {
+										console.log('Here are projects: ', project)
+										project.todos.forEach(t => {
+											if (t.id === todo.id) {
+												t.dueDate = todo.dueDate;
+											}
+										})
+									})
 									Storage.saveProjects(projects);
 									Storage.saveAllTodos(todos);
 									UI.loadTodos();
@@ -181,8 +198,22 @@ export class UI {
 							dateInput.addEventListener('change', () => {
 								let input = dateInput.value;
 								let dateEntered = new Date(input);
+
+								// Change date in all todos
 								todo.dueDate = UI.parseDate(dateEntered);
 								Storage.saveAllTodos(todos);
+
+								// Change date in project todos
+								let projects = Storage.getProjects();
+								projects.forEach(project => {
+									console.log('Here are projects: ', project)
+									project.todos.forEach(t => {
+										if (t.id === todo.id) {
+											t.dueDate = todo.dueDate;
+										}
+									})
+								})
+								Storage.saveProjects(projects);
 								UI.loadTodos();
 							})
 	
