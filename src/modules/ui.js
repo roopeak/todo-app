@@ -14,10 +14,8 @@ export class UI {
 					<button id='allTodosBtn'>All todos</button>
 					<button id='todayBtn'>Today</button>
 				</div>
-				<div id='projectsContainer'>
-					<button id='addProjectBtn'>Add Project</button>
-					<div id='projectList'></div>
-				</div>
+				<button id='addProjectBtn'>Add Project</button>
+				<div id='projectList'></div>
 			</aside>
 			<div id='todoList'></div>
 		`;
@@ -29,7 +27,8 @@ export class UI {
 		projectContainer.innerHTML = '';
 
 		projects.forEach(project => {
-			const projectCard = document.createElement('div', 'project-item');
+			const projectCard = document.createElement('div');
+			projectCard.classList.add('project-item');
 			projectCard.textContent = project.name;
 			projectCard.dataset.id = project.id;
 			projectCard.addEventListener('click', () => UI.loadTodos(project.id));

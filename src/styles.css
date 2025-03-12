@@ -2,6 +2,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	background-color: #CBB9A8;
 }
 
 header {
@@ -9,7 +10,7 @@ header {
 	align-items: center;
 	color: white;
 	height: 100px;
-	background-color:cadetblue;
+	background-color: #1F271B;
 }
 
 header > h1 {
@@ -20,21 +21,62 @@ aside {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	gap: 20px;
 	position: fixed;
 	height: 100%;
 	width: 300px;
-	background-color:cornsilk;
+	padding-top: 40px;
+	background-color: #0B4F6C;
 }
 
 #viewBtns {
 	display: flex;
 	flex-direction: column;
+	gap: 20px;
 }
 
 #allTodosBtn,
 #todayBtn,
-#thisWeekBtn {
-	width: 100px;
+#addProjectBtn {
+	width: 200px;
+	height: 40px;
+	border: none;
+	border-radius: 15px;
+	color: white;
+	font-size: large;
+	font-weight: bold;
+	background-color: #145C9E;
+}
+
+#allTodosBtn:hover,
+#todayBtn:hover,
+#addProjectBtn:hover {
+	cursor: pointer;
+	background-color: #1F271B;
+}
+
+.project-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 200px;
+	height: 40px;
+	color: white;
+	text-align: center;
+	border-radius: 15px;
+}
+
+.project-item:hover {
+	cursor: pointer;
+	background-color: #1F271B;
+	color: white;
+}
+
+#projectList {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
 }
 
 #todoList {
@@ -42,7 +84,8 @@ aside {
 	flex-direction: column;
 	height: 100vh;
 	position: fixed;
-	margin-left: 300px;
+	margin-left: 350px;
+
 }
 
 .todo-item {
