@@ -70,7 +70,8 @@ export class UI {
 
 			todoContainer.appendChild(projectHeader);
 			project.todos.forEach(todo => {
-				const todoItem = document.createElement('div', 'todo-item');
+				const todoItem = document.createElement('div');
+				todoItem.classList.add('todo-item');
 				todoItem.innerHTML = `
 					<button class='complete-todo' data-todo-id='${todo.id}'>Complete</button>
 					<strong>${todo.title}</strong>
@@ -120,7 +121,7 @@ export class UI {
 
 		if (todos) {
 			if (date) {
-				todoContainer.innerHTML = '';
+				todoContainer.innerHTML = "<h1>Today's todos</h1>";
 				todos.forEach(todo => {
 					if (todo.dueDate === date) {
 						const todoElement = document.createElement('div');
