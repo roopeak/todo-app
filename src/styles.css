@@ -10,11 +10,11 @@ header {
 	align-items: center;
 	color: white;
 	height: 100px;
-	background-color: #1F271B;
+	background-color: #352D39;
 }
 
 header > h1 {
-	margin-left: 100px;
+	margin-left: 75px;
 }
 
 aside {
@@ -26,7 +26,7 @@ aside {
 	height: 100%;
 	width: 300px;
 	padding-top: 40px;
-	background-color: #0B4F6C;
+	background-color: #FF6978;
 }
 
 #viewBtns {
@@ -37,22 +37,25 @@ aside {
 
 #allTodosBtn,
 #todayBtn,
-#addProjectBtn {
+#addProjectBtn,
+#addTodoBtn {
 	width: 200px;
 	height: 40px;
 	border: none;
 	border-radius: 15px;
-	color: white;
+	color: black;
 	font-size: large;
 	font-weight: bold;
-	background-color: #145C9E;
+	background-color: #FFFCF9;
 }
 
 #allTodosBtn:hover,
 #todayBtn:hover,
-#addProjectBtn:hover {
+#addProjectBtn:hover,
+#addTodoBtn:hover {
 	cursor: pointer;
 	background-color: #1F271B;
+	color: white;
 }
 
 .project-item {
@@ -82,17 +85,53 @@ aside {
 #todoList {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	height: 100vh;
 	position: fixed;
 	margin-left: 350px;
-
+	padding-top: 40px;
+	gap: 20px;
 }
 
 .todo-item {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 20px;
-	width: 500px;
+	width: 1000px;
+	height: 30px;
+}
 
-	border: 1px solid red;
+.todo-item:hover {
+	background-color:#CBB9C9;
+	border-radius: 15px;
+}
+
+.complete-todo {
+	border: none;
+	color: black;
+	border-radius: 15px;
+	width: 100px;
+	height: 30px;
+}
+
+.complete-todo:hover {
+	background-color: #1F271B;
+	color: white;
+	cursor: pointer;
+}
+
+.due-date {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 30px;
+	width: 100px;
+}
+
+.due-date:hover {
+	cursor: pointer;
+	background-color: #1F271B;
+	color: white;
+	border-radius: 15px;
 }

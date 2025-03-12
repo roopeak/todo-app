@@ -72,13 +72,13 @@ export class UI {
 			project.todos.forEach(todo => {
 				const todoItem = document.createElement('div', 'todo-item');
 				todoItem.innerHTML = `
-					<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+					<button class='complete-todo' data-todo-id='${todo.id}'>Complete</button>
 					<strong>${todo.title}</strong>
 					<p class='due-date'>${todo.dueDate}</p>
 				`;
 				todoContainer.appendChild(todoItem);
 
-				document.querySelectorAll(".check-todo").forEach(button => {
+				document.querySelectorAll(".complete-todo").forEach(button => {
 					button.addEventListener("click", (event) => {
 						const todoId = event.target.dataset.todoId;
 						UI.removeTodo(todoId);
@@ -107,7 +107,7 @@ export class UI {
 								}
 							})
 							Storage.saveAllTodos(todos);
-							UI.loadTodos();
+							UI.loadTodos(project.id);
 						})
 	
 						dueDate.replaceWith(dateInput);
@@ -120,18 +120,19 @@ export class UI {
 
 		if (todos) {
 			if (date) {
+				todoContainer.innerHTML = '';
 				todos.forEach(todo => {
 					if (todo.dueDate === date) {
 						const todoElement = document.createElement('div');
 						todoElement.classList.add('todo-item');
 						todoElement.innerHTML = `
-							<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+							<button class='complete-todo' data-todo-id='${todo.id}'>Complete</button>
 							<strong>${todo.title}</strong>
 							<p class='due-date'>${todo.dueDate}</p>
 						`;
 						todoContainer.appendChild(todoElement);
 						
-						document.querySelectorAll(".check-todo").forEach(button => {
+						document.querySelectorAll(".complete-todo").forEach(button => {
 							button.addEventListener("click", (event) => {
 								const todoId = event.target.dataset.todoId;
 								UI.removeTodo(todoId);
@@ -162,7 +163,7 @@ export class UI {
 									})
 									Storage.saveProjects(projects);
 									Storage.saveAllTodos(todos);
-									UI.loadTodos();
+									UI.loadTodos(null, oldDate);
 								})
 		
 								dueDate.replaceWith(dateInput);
@@ -175,13 +176,13 @@ export class UI {
 					const todoElement = document.createElement('div');
 					todoElement.classList.add('todo-item');
 					todoElement.innerHTML = `
-						<button class='check-todo' data-todo-id='${todo.id}'>Check</button>
+						<button class='complete-todo' data-todo-id='${todo.id}'>Complete</button>
 						<strong>${todo.title}</strong>
 						<p class='due-date'>${todo.dueDate}</p>
 					`;
 					todoContainer.appendChild(todoElement);
 
-					document.querySelectorAll(".check-todo").forEach(button => {
+					document.querySelectorAll(".complete-todo").forEach(button => {
 						button.addEventListener("click", (event) => {
 							const todoId = event.target.dataset.todoId;
 							UI.removeTodo(todoId);
@@ -231,7 +232,7 @@ export class UI {
 			let project = projects.find(project => project.name === projectName);
 
 			if (project) {
-				const todo = new Todo(title, 'not set', 'normal');
+				const todo = new Todo(title, 'No date', 'normal');
 				project.addTodo(todo);
 
 				const todos = Storage.getAllTodos();
@@ -244,7 +245,7 @@ export class UI {
 			}
 			console.log('Projects after add: ', projects);
 		} else {
-			const todo = new Todo(title, 'not set', 'normal');
+			const todo = new Todo(title, 'No date', 'normal');
 			const todos = Storage.getAllTodos();
 			todos.push(todo);
 			Storage.saveAllTodos(todos);
