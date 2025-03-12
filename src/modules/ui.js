@@ -13,7 +13,6 @@ export class UI {
 				<div id='viewBtns'>
 					<button id='allTodosBtn'>All todos</button>
 					<button id='todayBtn'>Today</button>
-					<button id='thisWeekBtn'>This week</button>
 				</div>
 				<div id='projectsContainer'>
 					<button id='addProjectBtn'>Add Project</button>
@@ -51,6 +50,7 @@ export class UI {
 
 	static loadTodos(projectId, date) {
 		const projects = Storage.getProjects();
+		const todos = Storage.getAllTodos();
 		console.log(projects);
 		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
@@ -96,10 +96,7 @@ export class UI {
 							let input = dateInput.value;
 							let dateEntered = new Date(input);
 							todo.dueDate = UI.parseDate(dateEntered);
-							Todo.changeDate(UI.parseDate(dateEntered));
-							let projects = Storage.getProjects();
 							Storage.saveProjects(projects);
-							let todos = Storage.getAllTodos();
 							Storage.saveAllTodos(todos);
 							UI.loadTodos(project.id);
 							console.log('Projects after change: ', projects);
@@ -107,15 +104,12 @@ export class UI {
 						})
 	
 						dueDate.replaceWith(dateInput);
-						dateInput.focus();
 					})
 				});
 			});
 
 			return;
 		}
-
-		let todos = Storage.getAllTodos();
 
 		if (todos) {
 			if (date) {
@@ -150,12 +144,12 @@ export class UI {
 									let input = dateInput.value;
 									let dateEntered = new Date(input);
 									todo.dueDate = UI.parseDate(dateEntered);
+									Storage.saveProjects(projects);
 									Storage.saveAllTodos(todos);
 									UI.loadTodos();
 								})
 		
 								dueDate.replaceWith(dateInput);
-								dateInput.focus();
 							})
 						});
 					}

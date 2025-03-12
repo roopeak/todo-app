@@ -5,8 +5,4 @@ export class Todo {
 		this.completed = false;
 		this.id = Date.now().toString();
 	}
-
-	static changeDate(newDueDate) {
-		this.dueDate = newDueDate;
-	}
 }
