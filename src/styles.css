@@ -60,19 +60,33 @@ aside {
 
 .project-item {
 	display: flex;
+	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	width: 200px;
+	width: 250px;
 	height: 40px;
 	color: white;
 	text-align: center;
 	border-radius: 15px;
+	gap: 50px;
 }
 
 .project-item:hover {
 	cursor: pointer;
 	background-color: #1F271B;
 	color: white;
+}
+
+#removeProjectBtn {
+	background-color: #FF6978;
+	border: none;
+	color: white;
+}
+
+#removeProjectBtn:hover {
+	background-color: white;
+	color: black;
+	cursor: pointer;
 }
 
 #projectList {
