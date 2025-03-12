@@ -31,9 +31,13 @@ export class Storage {
 		}
 
 		let todos = Storage.getAllTodos();
-		console.log('Todos before remove: ', todos);
 		todos = todos.filter(todo => todo.id !== todoId);
 		Storage.saveAllTodos(todos);
-		console.log('Todos after remove: ', todos);
+	}
+
+	static removeProject(projectId) {
+		let projects = Storage.getProjects();
+		projects = projects.filter(project => project.id !== projectId);
+		Storage.saveProjects(projects);
 	}
 }

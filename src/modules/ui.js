@@ -28,19 +28,23 @@ export class UI {
 
 		projects.forEach(project => {
 			const projectCard = document.createElement('div');
-			projectCard.classList.add('project-item');
 			projectCard.innerHTML = `
-				<p>${project.name}</p>
-				<button id='removeProjectBtn'>x</button>
+				<div class='project-card'>
+					<p class='project-item'>${project.name}</p>
+					<button class='remove-project' data-project-id=${project.id}>x</button>
+				</div>
 			`
 			projectCard.dataset.id = project.id;
 			projectCard.addEventListener('click', () => UI.loadTodos(project.id));
 			projectContainer.appendChild(projectCard);
-			document
-				.getElementById('removeProjectBtn')
-				.addEventListener('click', () => {
-					removeProject(project.id);
-			})
+
+			document.querySelectorAll('.remove-project').forEach(button => {
+				button.addEventListener('click', (event) => {
+					const projectId = event.target.dataset.projectId;
+					Storage.removeProject(projectId);
+					UI.loadProjects();
+				});
+			});
 		})
 
 		// Console log for debugging
@@ -287,10 +291,6 @@ export class UI {
     Storage.removeTodo(todoId);
     UI.loadTodos();
     console.log('Projects after global todo remove: ', projects);
-	}
-
-	static removeProject(projectId) {
-
 	}
 
 	static parseDate(date) {

@@ -58,6 +58,13 @@ aside {
 	color: white;
 }
 
+.project-card {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
 .project-item {
 	display: flex;
 	flex-direction: row;
@@ -77,15 +84,16 @@ aside {
 	color: white;
 }
 
-#removeProjectBtn {
+.remove-project {
 	background-color: #FF6978;
 	border: none;
 	color: white;
+	height: 20px;
 }
 
-#removeProjectBtn:hover {
-	background-color: white;
-	color: black;
+.remove-project:hover {
+	background-color: #1F271B;
+	color: white;
 	cursor: pointer;
 }
 
