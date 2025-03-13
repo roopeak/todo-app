@@ -65,10 +65,16 @@ export class UI {
 		console.log(projects);
 		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
-		todoContainer.innerHTML = `<button id='addTodoBtn'>Add todo</button>`;
-	
+		todoContainer.innerHTML = `
+			<div id='addTodoContainer'>
+				<button id='addTodoBtn'>Add todo</button>
+			</div>		
+		`;
+
+		const addTodoContainer = document.getElementById('addTodoContainer');
+		
 		document.getElementById('addTodoBtn').addEventListener('click', () => {
-			todoContainer.innerHTML += `
+			addTodoContainer.innerHTML += `
 				<input type='text' placeholder='Enter todo' id='todoInput'>
 				<div id='submitTodoButtons'>
 					<button id='submitTodoBtn' type='submit'>Add</button>

@@ -115,6 +115,27 @@ aside {
 	gap: 20px;
 }
 
+#addTodoContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+}
+
+#todoInput {
+	width: 500px;
+	height: 30px;
+	border: 2px solid gray;
+	border-radius: 15px;
+}
+
+#submitTodoButtons {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 30px;
+}
+
 .todo-item {
 	display: flex;
 	justify-content: space-between;
