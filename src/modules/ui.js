@@ -15,10 +15,50 @@ export class UI {
 					<button id='todayBtn'>Today</button>
 				</div>
 				<button id='addProjectBtn'>Add Project</button>
+				<div class='addProjectContainer'></div>
 				<div id='projectList'></div>
 			</aside>
 			<div id='todoList'></div>
 		`;
+
+		const addProjectContainer = document.querySelector('.addProjectContainer');
+
+		document
+			.getElementById('addProjectBtn')
+			.addEventListener('click', () => {
+				addProjectContainer.innerHTML = `
+					<div>
+						<input
+							type='text'
+							placeholder='Enter project name'
+							id='addProjectInput'
+							required
+						>
+						<div id='addProjectButtons'>
+							<button id='submitProjectBtn'>Add</button>
+							<button id='cancelAddProjectBtn'>Cancel</button>
+						</div>
+					</div>
+				`;
+
+				document
+					.getElementById('submitProjectBtn')
+					.addEventListener('click', () => {
+						const projectName = document.getElementById('addProjectInput').value;
+
+						if (projectName) {
+							UI.addProject(projectName);
+							addProjectContainer.innerHTML = '';
+							UI.loadProjects();
+						}
+					});
+
+				document
+					.getElementById('cancelAddProjectBtn')
+					.addEventListener('click', () => {
+						addProjectContainer.innerHTML = '';
+					});
+			});
 	}
 
 	static loadProjects() {
@@ -33,7 +73,7 @@ export class UI {
 					<p class='project-item'>${project.name}</p>
 					<button class='remove-project' data-project-id=${project.id}>x</button>
 				</div>
-			`
+			`;
 			projectCard.dataset.id = project.id;
 			projectCard.addEventListener('click', () => UI.loadTodos(project.id));
 			projectContainer.appendChild(projectCard);
