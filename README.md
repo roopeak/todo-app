@@ -1,2 +1,8 @@
 # todo-app
-A simple Todo app created with vanilla JavaScript, HTML and CSS. Pretty much learning to do a project with webpack.
+A simple Todo app done using 
+	- JavaScript
+	- HTML
+	- CSS
+	- Webpack
+
+The application data is stored using browser's local storage.
