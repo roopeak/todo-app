@@ -93,6 +93,16 @@ export class UI {
 						UI.addTodo(title);
 					}
 			});
+
+			document
+				.getElementById('cancelSubmitTodoBtn')
+				.addEventListener('click', () => {
+					if (project) {
+						UI.loadTodos(project.id)
+					} else {
+						UI.loadTodos();
+					}
+				})
 		});
 
 		if (project) {
