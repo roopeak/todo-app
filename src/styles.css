@@ -127,6 +127,7 @@ aside {
 	height: 30px;
 	border: 2px solid gray;
 	border-radius: 15px;
+	text-align: center;
 }
 
 #submitTodoButtons {
@@ -134,6 +135,34 @@ aside {
 	flex-direction: row;
 	justify-content: center;
 	gap: 30px;
+}
+
+#submitTodoBtn,
+#cancelSubmitTodoBtn {
+	width: 100px;
+	height: 40px;
+	border: none;
+	border-radius: 15px;
+	background-color: white;
+	color: black;
+	font-size: large;
+	font-weight: bold;
+}
+
+#submitTodoBtn:hover,
+#cancelSubmitTodoBtn:hover {
+	border: 2px solid white;
+	background-color: #1F271B;
+	color: white;
+	cursor: pointer;
+}
+
+#submitTodoBtn {
+	background-color: greenyellow;
+}
+
+#cancelSubmitTodoBtn {
+	background-color: red;
 }
 
 .todo-item {

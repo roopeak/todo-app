@@ -85,12 +85,14 @@ export class UI {
 			document
 				.getElementById('submitTodoBtn')
 				.addEventListener('click', () => {
-					const title = document.getElementById('todoInput').value;
-					
-					if (project) {
-						UI.addTodo(title, project.name);
-					} else {
-						UI.addTodo(title);
+					if (document.getElementById('todoInput').value != '') {
+						const title = document.getElementById('todoInput').value;
+						
+						if (project) {
+							UI.addTodo(title, project.name);
+						} else {
+							UI.addTodo(title);
+						}
 					}
 			});
 
