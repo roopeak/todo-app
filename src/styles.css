@@ -58,6 +58,10 @@ aside {
 	color: white;
 }
 
+#addProjectInputContainer {
+	position: fixed;
+}
+
 .project-card {
 	display: flex;
 	flex-direction: row;
