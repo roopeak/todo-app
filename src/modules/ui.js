@@ -34,8 +34,10 @@ export class UI {
 							id='addProjectInput'
 							required
 						>
-						<button id='submitProjectBtn'>Add</button>
-						<button id='cancelAddProjectBtn'>Cancel</button>
+						<div id='addProjectButtons'>
+							<button id='submitProjectBtn'>Add</button>
+							<button id='cancelAddProjectBtn'>Cancel</button>
+						</div>
 					</div>
 				`;
 
@@ -43,6 +45,7 @@ export class UI {
 					.getElementById('submitProjectBtn')
 					.addEventListener('click', () => {
 						const projectName = document.getElementById('addProjectInput').value;
+
 						if (projectName) {
 							UI.addProject(projectName);
 							addProjectContainer.innerHTML = '';
