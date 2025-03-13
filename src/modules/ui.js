@@ -65,22 +65,53 @@ export class UI {
 		console.log(projects);
 		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
-		todoContainer.innerHTML = `<button id='addTodoBtn'>Add todo</button>`;
-	
+		todoContainer.innerHTML = `
+			<div id='addTodoContainer'>
+				<button id='addTodoBtn'>Add todo</button>
+			</div>		
+		`;
+
+		const addTodoContainer = document.getElementById('addTodoContainer');
+		
 		document.getElementById('addTodoBtn').addEventListener('click', () => {
-			const title = prompt('Enter task name:');
-			if (project) {
-				UI.addTodo(title, project.name);
-			} else {
-				UI.addTodo(title);
-			}
+			addTodoContainer.innerHTML += `
+				<input type='text' placeholder='Enter todo' id='todoInput'>
+				<div id='submitTodoButtons'>
+					<button id='submitTodoBtn' type='submit'>Add</button>
+					<button id='cancelSubmitTodoBtn'>Cancel</button>
+				</div>
+			`;
+
+			document
+				.getElementById('submitTodoBtn')
+				.addEventListener('click', () => {
+					if (document.getElementById('todoInput').value != '') {
+						const title = document.getElementById('todoInput').value;
+						
+						if (project) {
+							UI.addTodo(title, project.name);
+						} else {
+							UI.addTodo(title);
+						}
+					}
+			});
+
+			document
+				.getElementById('cancelSubmitTodoBtn')
+				.addEventListener('click', () => {
+					if (project) {
+						UI.loadTodos(project.id)
+					} else {
+						UI.loadTodos();
+					}
+				})
 		});
 
 		if (project) {
 			const projectHeader = document.createElement('h1');
 			projectHeader.textContent = project.name;
-
 			todoContainer.appendChild(projectHeader);
+			
 			project.todos.forEach(todo => {
 				const todoItem = document.createElement('div');
 				todoItem.classList.add('todo-item');
