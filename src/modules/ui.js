@@ -21,6 +21,15 @@ export class UI {
 			<div id='todoList'></div>
 		`;
 
+		document.getElementById('allTodosBtn').addEventListener('click', () => {
+			UI.loadTodos();
+		});
+	
+		document.getElementById('todayBtn').addEventListener('click', () => {
+			const date = UI.parseDate(new Date());
+			UI.loadTodos(null, date);
+		});
+
 		const addProjectContainer = document.querySelector('.addProjectContainer');
 
 		document
@@ -85,10 +94,7 @@ export class UI {
 					UI.loadProjects();
 				});
 			});
-		})
-
-		// Console log for debugging
-		// console.log('Projects loaded: ', projects);
+		});
 	}
 
 	static addProject(name) {
@@ -102,7 +108,6 @@ export class UI {
 	static loadTodos(projectId, date) {
 		const projects = Storage.getProjects();
 		const todos = Storage.getAllTodos();
-		console.log(projects);
 		const project = projects.find(p => p.id === projectId);
 		const todoContainer = document.getElementById('todoList');
 		todoContainer.innerHTML = `
@@ -238,7 +243,6 @@ export class UI {
 									todo.dueDate = UI.parseDate(dateEntered);
 									let projects = Storage.getProjects();
 									projects.forEach(project => {
-										console.log('Here are projects: ', project)
 										project.todos.forEach(t => {
 											if (t.id === todo.id) {
 												t.dueDate = todo.dueDate;
@@ -290,7 +294,6 @@ export class UI {
 								// Change date in project todos
 								let projects = Storage.getProjects();
 								projects.forEach(project => {
-									console.log('Here are projects: ', project)
 									project.todos.forEach(t => {
 										if (t.id === todo.id) {
 											t.dueDate = todo.dueDate;
@@ -325,9 +328,7 @@ export class UI {
 				Storage.saveProjects(projects);
 				Storage.saveAllTodos(todos);
 				UI.loadTodos(project.id);
-				console.log(projects);
 			}
-			console.log('Projects after add: ', projects);
 		} else {
 			const todo = new Todo(title, 'No date', 'normal');
 			const todos = Storage.getAllTodos();
@@ -339,7 +340,6 @@ export class UI {
 
 	static removeTodo(todoId) {
     const projects = Storage.getProjects();
-    console.log('Projects before remove: ', projects);
     let projectId = null;
 
     for (let project of projects) {
@@ -354,14 +354,12 @@ export class UI {
 			if (project) {
 				project.removeTodo(todoId);
 				Storage.saveProjects(projects);
-				console.log('Projects after project todo remove: ', projects);
 				UI.loadTodos(project.id);
 			}
     }
 
     Storage.removeTodo(todoId);
     UI.loadTodos();
-    console.log('Projects after global todo remove: ', projects);
 	}
 
 	static parseDate(date) {
@@ -385,7 +383,6 @@ export class UI {
 		const month = months[date[1]];
 		const year = date[3];
 
-		// console.log(`${day}/${month}/${year}`);
 		return `${day}/${month}/${year}`;
 	}
 }
